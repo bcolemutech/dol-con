@@ -1,12 +1,12 @@
-﻿using System;
+﻿using dol_cli.Scenes;
 using dol_cli.Utilities;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace dol_cli
 {
-    class Program
+    public static class Program
     {
-        static void Main(string[] args)
+        public static void Main()
         {
             var serviceProvider = new ServiceCollection()
                 .AddSingleton<ITitle, Title>()

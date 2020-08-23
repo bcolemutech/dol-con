@@ -1,5 +1,5 @@
 using Xunit;
-using dol_cli;
+using dol_cli.Scenes;
 using dol_cli.Utilities;
 using NSubstitute;
 

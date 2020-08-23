@@ -1,4 +1,6 @@
 ﻿using System;
+using dol_cli.Utilities;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace dol_cli
 {
@@ -6,7 +8,14 @@ namespace dol_cli
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var serviceProvider = new ServiceCollection()
+                .AddSingleton<ITitle, Title>()
+                .AddSingleton<IConsoleWrapper, ConsoleWrapper>()
+                .BuildServiceProvider();
+            
+            var title = serviceProvider.GetService<ITitle>();
+
+            title.Show();
         }
     }
 }

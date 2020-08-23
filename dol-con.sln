@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dol-cli", "dol-cli\dol-cli.csproj", "{0106D94E-044E-4E89-9E4E-9B26E6E201E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dol-con", "dol-con\dol-con.csproj", "{0106D94E-044E-4E89-9E4E-9B26E6E201E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dol-cli-test", "dol-cli-test\dol-cli-test.csproj", "{4C541A73-B493-41DE-AC17-7C9907984C75}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dol-con-test", "dol-con-test\dol-con-test.csproj", "{4C541A73-B493-41DE-AC17-7C9907984C75}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,8 +1,8 @@
-﻿using dol_cli.Scenes;
-using dol_cli.Utilities;
+﻿using dol_con.Scenes;
+using dol_con.Utilities;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace dol_cli
+namespace dol_con
 {
     public static class Program
     {

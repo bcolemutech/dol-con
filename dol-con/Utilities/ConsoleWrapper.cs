@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace dol_con.Utilities
 {
@@ -6,8 +7,11 @@ namespace dol_con.Utilities
     {
         void WriteLine(string value);
         void Write(string value);
+        string ReadLine();
+        void Clear();
     }
 
+    [ExcludeFromCodeCoverage]
     public class ConsoleWrapper : IConsoleWrapper
     {
         public void WriteLine(string value)
@@ -18,6 +22,16 @@ namespace dol_con.Utilities
         public void Write(string value)
         {
             Console.Write(value);
+        }
+
+        public string ReadLine()
+        {
+            return Console.ReadLine();
+        }
+
+        public void Clear()
+        {
+            Console.Clear();
         }
     }
 }

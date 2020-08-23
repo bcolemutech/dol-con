@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace dol_cli.Utilities
+namespace dol_con.Utilities
 {
     public interface IConsoleWrapper
     {

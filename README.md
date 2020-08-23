@@ -1,2 +1,2 @@
-# dol-cli
-Play and control through command line
+# dol-con
+Play and control through console app

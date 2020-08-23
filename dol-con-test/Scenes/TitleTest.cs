@@ -1,9 +1,9 @@
-using Xunit;
-using dol_cli.Scenes;
-using dol_cli.Utilities;
+using dol_con.Scenes;
+using dol_con.Utilities;
 using NSubstitute;
+using Xunit;
 
-namespace dol_cli_test.Scenes
+namespace dol_con_test.Scenes
 {
     public class TitleTest
     {

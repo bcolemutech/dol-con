@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
-        <RootNamespace>dol_cli_test</RootNamespace>
+        <RootNamespace>dol_con_test</RootNamespace>
 
         <IsPackable>false</IsPackable>
     </PropertyGroup>
@@ -16,7 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\dol-cli\dol-cli.csproj" />
+      <ProjectReference Include="..\dol-con\dol-con.csproj" />
     </ItemGroup>
 
 </Project>

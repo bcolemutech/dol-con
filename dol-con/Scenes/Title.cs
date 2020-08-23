@@ -1,6 +1,6 @@
-﻿using dol_cli.Utilities;
+﻿using dol_con.Utilities;
 
-namespace dol_cli.Scenes
+namespace dol_con.Scenes
 {
     public interface ITitle
     {

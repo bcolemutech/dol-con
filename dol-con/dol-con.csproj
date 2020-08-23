@@ -3,7 +3,7 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>netcoreapp3.1</TargetFramework>
-        <RootNamespace>dol_cli</RootNamespace>
+        <RootNamespace>dol_con</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

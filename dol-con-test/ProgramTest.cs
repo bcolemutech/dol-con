@@ -1,13 +1,14 @@
-﻿using Xunit;
+﻿using dol_con;
+using Xunit;
 
-namespace dol_cli_test
+namespace dol_con_test
 {
     public class ProgramTest
     {
         [Fact]
         public void CanRunMain()
         {
-            dol_cli.Program.Main();
+            Program.Main();
         }
     }
 }

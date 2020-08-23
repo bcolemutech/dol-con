@@ -29,11 +29,5 @@ namespace dol_cli_test.Scenes
             _console.Received(1).WriteLine("Login to proceed.");
             _console.Received(1).Write("Enter email: ");
         }
-
-        [Fact]
-        public void TitleShowsOptions()
-        {
-            
-        }
     }
 }

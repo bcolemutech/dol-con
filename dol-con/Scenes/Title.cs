@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using dol_con.Services;
 using dol_con.Utilities;
 
@@ -6,7 +7,7 @@ namespace dol_con.Scenes
 {
     public interface ITitle
     {
-        Task Show(bool test);
+        void Show(bool test);
     }
 
     public class Title : ITitle
@@ -22,36 +23,52 @@ namespace dol_con.Scenes
             _user = userService;
         }
 
-        public async Task Show(bool test = false)
+        public void Show(bool test = false)
         {
-            if (test)
+            try
             {
-                return;
+                if (test)
+                {
+                    return;
+                }
+
+                _console.WriteLine("·▄▄▄▄        ▄▄▌  ");
+                _console.WriteLine("██· ██  ▄█▀▄ ██•  ");
+                _console.WriteLine("▐█▪ ▐█▌▐█▌.▐▌██ ▪ ");
+                _console.WriteLine("██. ██ ▐█▌.▐▌▐█▌ ▄");
+                _console.WriteLine("▀▀▀▀▀•  ▀█▄▀▪.▀▀▀ ");
+                _console.WriteLine("");
+                _console.WriteLine("Login to proceed.");
+                _console.Write("Enter email: ");
+                var user = _console.ReadLine();
+                _console.WriteLine("");
+                _console.Write("Enter password: ");
+                var password = _console.ReadLine();
+                //_console.Clear();
+                _security.Login(user, password);
+                if (_security.Identity?.User == null)
+                {
+                    _console.WriteLine("Login failed! Press any key to close...");
+                    _console.ReadLine();
+
+                }
+                else
+                {
+                    _console.WriteLine($"Welcome your ID is {_security.Identity.User.LocalId}!");
+                    _console.WriteLine(_user.GetUserData(_security.Identity.FirebaseToken));
+                }
             }
-            _console.WriteLine("·▄▄▄▄        ▄▄▌  ");
-            _console.WriteLine("██· ██  ▄█▀▄ ██•  ");
-            _console.WriteLine("▐█▪ ▐█▌▐█▌.▐▌██ ▪ ");
-            _console.WriteLine("██. ██ ▐█▌.▐▌▐█▌ ▄");
-            _console.WriteLine("▀▀▀▀▀•  ▀█▄▀▪.▀▀▀ ");
-            _console.WriteLine("");
-            _console.WriteLine("Login to proceed.");
-            _console.Write("Enter email: ");
-            var user = _console.ReadLine();
-            _console.WriteLine("");
-            _console.Write("Enter password: ");
-            var password = _console.ReadLine();
-            _console.Clear();
-            var loginSuccess = await _security.Login(user, password);
-            if (loginSuccess)
+            catch (Exception e)
             {
-                _console.WriteLine($"Welcome your ID is {_security.Identity.LocalId}!");
-                _console.WriteLine(_user.GetUserData(_security.Identity.IdToken));
+                _console.WriteLine(e.Message);
+                _console.WriteLine(e.StackTrace);
+                throw;
             }
-            else
+            finally
             {
-                _console.WriteLine("Login failed! Press any key to close...");
-                _console.ReadLine();
+                Task.Delay(10000);
             }
+            
         }
     }
 }

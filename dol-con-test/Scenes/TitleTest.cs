@@ -1,7 +1,7 @@
-using dol_con.Models;
 using dol_con.Scenes;
 using dol_con.Services;
 using dol_con.Utilities;
+using Firebase.Auth;
 using NSubstitute;
 using Xunit;
 
@@ -22,19 +22,15 @@ namespace dol_con_test.Scenes
             _console = Substitute.For<IConsoleWrapper>();
             _console.ReadLine().Returns("text");
             _security = Substitute.For<ISecurityService>();
-            var id = new Identity
+            var authProvider = Substitute.For<IFirebaseAuthProvider>();
+            var id = new FirebaseAuthLink(authProvider, new FirebaseAuth())
             {
-                Kind =  "identitytoolkit#VerifyPasswordResponse",
-                LocalId = "TG9yZW0gaXBzdW0=",
-                Email = "test@mail.com",
-                DisplayName = "",
-                IdToken = "TG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQsIGNvbnNlY3RldHVyIGFkaXBpc2NpbmcgZWxpdC4gQ3JhcyBtYWxlc3VhZGEgZWxlbWVudHVtIGFudGUgYXQgZmV1Z2lh",
-                Registered = true,
-                RefreshToken = "dC4gUGhhc2VsbHVzIGxlbyBwdXJ1cywgZmV1Z2lhdCBldSBsYWNpbmlhIGVnZXQsIHJob25jdXMgbm9uIGF1Z3VlLiBQcm9pbiBiaWJlbmR1bSB2dWxwdXRhdGUgZmF1",
-                ExpiresIn = 3600
+                FirebaseToken =
+                    "TG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQsIGNvbnNlY3RldHVyIGFkaXBpc2NpbmcgZWxpdC4gQ3JhcyBtYWxlc3VhZGEgZWxlbWVudHVtIGFudGUgYXQgZmV1Z2lh",
+                User = new User {Email = "test@mail.com", LocalId = "TG9yZW0gaXBzdW0="}
             };
+
             _security.Identity.Returns(id);
-            _security.Login(Arg.Any<string>(), Arg.Any<string>()).Returns(true);
             _title = new Title(_console, _security, _user);
         }
 
@@ -59,14 +55,17 @@ namespace dol_con_test.Scenes
             _console.Received(1).Write("Enter email: ");
             _console.Received(1).Write("Enter password: ");
             _console.Received(2).ReadLine();
-            _console.Received(1).Clear();
+            //_console.Received(1).Clear();
             _security.Received(1).Login("text", "text");
         }
 
         [Fact]
         public void ShouldDisplayFailureAndPromptIfLoginFailed()
         {
-            _security.Login(Arg.Any<string>(), Arg.Any<string>()).Returns(false);
+            var authProvider = Substitute.For<IFirebaseAuthProvider>();
+            var id = new FirebaseAuthLink(authProvider, new FirebaseAuth());
+
+            _security.Identity.Returns(id);
             
             _title.Show();
             

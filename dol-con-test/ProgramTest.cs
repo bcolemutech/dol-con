@@ -8,7 +8,7 @@ namespace dol_con_test
         [Fact]
         public void CanRunMain()
         {
-            Program.Main();
+            Program.Main(new []{"test"});
         }
     }
 }

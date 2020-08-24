@@ -1,8 +1,4 @@
-﻿using System.Net.Http;
-using System.Text.Json;
-using System.Threading.Tasks;
-using Firebase.Auth;
-using Microsoft.Extensions.Configuration;
+﻿using Firebase.Auth;
 
 namespace dol_con.Services
 {

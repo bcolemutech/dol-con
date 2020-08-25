@@ -3,17 +3,17 @@ using Microsoft.Extensions.Configuration;
 
 namespace dol_con.Services
 {
-    public interface IUserService
+    public interface IUserController
     {
         string GetUserData(string idToken);
     }
 
-    public class UserService : IUserService
+    public class UserController : IUserController
     {
         private readonly IHttpClientFactory _factory;
         private readonly IConfiguration _configuration;
 
-        public UserService(IHttpClientFactory factory, IConfiguration configuration)
+        public UserController(IHttpClientFactory factory, IConfiguration configuration)
         {
             _factory = factory;
             _configuration = configuration;

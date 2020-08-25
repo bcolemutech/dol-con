@@ -1,24 +1,24 @@
 ﻿using dol_con.Services;
 using dol_con.Utilities;
 
-namespace dol_con.Scenes
+namespace dol_con.Views
 {
-    public interface ITitle
+    public interface ILoginView
     {
         void Show(bool test);
     }
 
-    public class Title : ITitle
+    public class LoginView : ILoginView
     {
         private readonly IConsoleWrapper _console;
         private readonly ISecurityService _security;
-        private readonly IUserService _user;
+        private readonly IUserView _user;
 
-        public Title(IConsoleWrapper console, ISecurityService securityService, IUserService userService)
+        public LoginView(IConsoleWrapper console, ISecurityService securityService, IUserView userView)
         {
             _console = console;
             _security = securityService;
-            _user = userService;
+            _user = userView;
         }
 
         public void Show(bool test = false)
@@ -50,7 +50,7 @@ namespace dol_con.Scenes
             else
             {
                 _console.WriteLine($"Welcome your ID is {_security.Identity.User.LocalId}!");
-                _console.WriteLine(_user.GetUserData(_security.Identity.FirebaseToken));
+                _user.Show();
             }
         }
     }

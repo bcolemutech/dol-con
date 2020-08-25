@@ -12,7 +12,7 @@ namespace dol_con_test.Services
 {
     public class UserServiceTests
     {
-        private readonly IUserService _sut;
+        private readonly IUserController _sut;
         private readonly IHttpClientFactory _factory;
 
         public UserServiceTests()
@@ -22,7 +22,7 @@ namespace dol_con_test.Services
 
             configuration["DolApiUri"].Returns("https://bogus.run.app/");
             
-            _sut = new UserService(_factory, configuration);
+            _sut = new UserController(_factory, configuration);
         }
 
         [Fact]

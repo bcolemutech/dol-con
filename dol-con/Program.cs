@@ -1,6 +1,7 @@
-﻿using dol_con.Scenes;
+﻿using dol_con.Controllers;
 using dol_con.Services;
 using dol_con.Utilities;
+using dol_con.Views;
 using Firebase.Auth;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,18 +21,21 @@ namespace dol_con
             var serviceProvider = new ServiceCollection()
                 .AddSingleton(configuration)
                 .AddSingleton(auth)
-                .AddSingleton<ITitle, Title>()
                 .AddSingleton<IConsoleWrapper, ConsoleWrapper>()
                 .AddSingleton<ISecurityService, SecurityService>()
-                .AddSingleton<IUserService, UserService>()
+                .AddSingleton<IUserController, UserController>()
+                .AddSingleton<IUserView, UserView>()
+                .AddSingleton<INewCharacterView, NewCharacterView>()
+                .AddSingleton<INewCharacterController, NewCharacterController>()
+                .AddSingleton<ILoginView, LoginView>()
                 .AddHttpClient()
                 .BuildServiceProvider();
             
-            var title = serviceProvider.GetService<ITitle>();
+            var login = serviceProvider.GetService<ILoginView>();
 
-            var test = args != null && args.Length > 0;
+            var test = args != null || args.Length > 0;
 
-            title.Show(test);
+            login.Show(test);
         }
     }
 }

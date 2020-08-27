@@ -1,11 +1,14 @@
 ﻿using System.Net.Http;
+using dol_con.POCOs;
+using dol_con.Views;
 using Microsoft.Extensions.Configuration;
 
-namespace dol_con.Services
+namespace dol_con.Controllers
 {
     public interface IUserController
     {
-        string GetUserData(string idToken);
+        string GetPlayerData(string idToken);
+        Player GetPlayerData();
     }
 
     public class UserController : IUserController
@@ -19,7 +22,7 @@ namespace dol_con.Services
             _configuration = configuration;
         }
 
-        public string GetUserData(string idToken)
+        public string GetPlayerData(string idToken)
         {
             var client = _factory.CreateClient();
 
@@ -30,6 +33,11 @@ namespace dol_con.Services
             var response = client.SendAsync(request).Result;
             response.EnsureSuccessStatusCode();
             return response.Content.ReadAsStringAsync().Result;
+        }
+
+        public Player GetPlayerData()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

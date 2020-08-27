@@ -7,14 +7,14 @@ using Xunit;
 
 namespace dol_con_test.Views
 {
-    public class LoginConTest
+    public class LoginViewTest
     {
         private readonly LoginView _loginView;
         private readonly IConsoleWrapper _console;
         private readonly ISecurityService _security;
         private readonly IUserView _userView;
         
-        public LoginConTest()
+        public LoginViewTest()
         {
             _userView = Substitute.For<IUserView>();
             _console = Substitute.For<IConsoleWrapper>();

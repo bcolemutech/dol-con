@@ -1,21 +1,21 @@
 ﻿using System.Net;
 using System.Net.Http;
 using System.Text;
-using dol_con.Services;
+using dol_con.Controllers;
 using dol_con_test.TestHelpers;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using NSubstitute;
 using Xunit;
 
-namespace dol_con_test.Services
+namespace dol_con_test.Controllers
 {
-    public class UserServiceTests
+    public class UserControllerTests
     {
         private readonly IUserController _sut;
         private readonly IHttpClientFactory _factory;
 
-        public UserServiceTests()
+        public UserControllerTests()
         {
             _factory = Substitute.For<IHttpClientFactory>();
             var configuration = Substitute.For<IConfiguration>();
@@ -41,7 +41,7 @@ namespace dol_con_test.Services
             _factory.CreateClient().Returns(fakeHttpClient);
             
             const string token = "lkjhgflskhfglkjshdfg";
-            var actual = _sut.GetUserData(token);
+            var actual = _sut.GetPlayerData(token);
 
             actual.Should().Be(expected);
         }

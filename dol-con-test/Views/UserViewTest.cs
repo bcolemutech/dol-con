@@ -1,5 +1,6 @@
 ﻿using System;
-using dol_con.Services;
+using dol_con.Controllers;
+using dol_con.POCOs;
 using dol_con.Utilities;
 using dol_con.Views;
 using NSubstitute;
@@ -17,6 +18,11 @@ namespace dol_con_test.Views
         public UserViewTest()
         {
             _userController = Substitute.For<IUserController>();
+
+            var player = new Player();
+
+            _userController.GetPlayerData().Returns(player);
+            
             _console = Substitute.For<IConsoleWrapper>();
             _newCharacter = Substitute.For<INewCharacterView>();
             _sut = new UserView(_console, _userController);
@@ -25,19 +31,34 @@ namespace dol_con_test.Views
         [Fact]
         public void ShowShouldClearAndDisplayUser()
         {
-            throw new NotImplementedException();
+            _sut.Show();
+            
+            _console.Received(1).Clear();
+            
+            _console.Received(1).WriteLine("Welcome bob@test.com choose a character to play:");
+
         }
 
         [Fact]
         public void ShowShouldListAvailableCharactersAndOptionToCreate()
         {
-            throw new NotImplementedException();
+            _sut.Show();
+            
+            _console.Received(1).WriteLine("1 - Sally ");
+            _console.Received(1).WriteLine("2 - Rick");
+            _console.Received(1).WriteLine("3 - Joe");
+            _console.Received(1).WriteLine("N - Create a new character.");
+            _console.Received(1).WriteLine("D - Delete a character.");
+            _console.Received(1).Write("Enter selection: ");
         }
 
         [Fact]
         public void EnteringValidCharacterNumberShouldShowMainView()
         {
-            throw new NotImplementedException();
+            _console.ReadLine().Returns("1");
+            
+            _sut.Show();
+            
         }
 
         [Fact]

@@ -21,13 +21,13 @@ namespace dol_con
             var serviceProvider = new ServiceCollection()
                 .AddSingleton(configuration)
                 .AddSingleton(auth)
-                .AddSingleton<IConsoleWrapper, ConsoleWrapper>()
+                .AddTransient<IConsoleWrapper, ConsoleWrapper>()
                 .AddSingleton<ISecurityService, SecurityService>()
                 .AddSingleton<IUserController, UserController>()
-                .AddSingleton<IUserView, UserView>()
-                .AddSingleton<INewCharacterView, NewCharacterView>()
+                .AddTransient<IUserView, UserView>()
+                .AddTransient<INewCharacterView, NewCharacterView>()
                 .AddSingleton<INewCharacterController, NewCharacterController>()
-                .AddSingleton<ILoginView, LoginView>()
+                .AddTransient<ILoginView, LoginView>()
                 .AddHttpClient()
                 .BuildServiceProvider();
             

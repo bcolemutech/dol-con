@@ -12,11 +12,11 @@ namespace dol_con_test.Views
         private readonly LoginView _loginView;
         private readonly IConsoleWrapper _console;
         private readonly ISecurityService _security;
-        private readonly IUserView _userView;
+        private readonly ICharacterView _characterView;
         
         public LoginViewTest()
         {
-            _userView = Substitute.For<IUserView>();
+            _characterView = Substitute.For<ICharacterView>();
             _console = Substitute.For<IConsoleWrapper>();
             _console.ReadLine().Returns("text");
             _security = Substitute.For<ISecurityService>();
@@ -29,7 +29,7 @@ namespace dol_con_test.Views
             };
 
             _security.Identity.Returns(id);
-            _loginView = new LoginView(_console, _security, _userView);
+            _loginView = new LoginView(_console, _security, _characterView);
         }
 
         [Fact]
@@ -82,7 +82,7 @@ namespace dol_con_test.Views
         {
             _loginView.Show();
 
-            _userView.Received(1).Show();
+            _characterView.Received(1).Show();
         }
     }
 }

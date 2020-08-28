@@ -13,7 +13,7 @@ namespace dol_con
         public static void Main(string[] args)
         {
             IConfiguration configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile("appsettings.json", false, true)
                 .Build();
             
             IFirebaseAuthProvider auth = new FirebaseAuthProvider(new FirebaseConfig(configuration["FirebaseApiKey"]));
@@ -23,17 +23,19 @@ namespace dol_con
                 .AddSingleton(auth)
                 .AddTransient<IConsoleWrapper, ConsoleWrapper>()
                 .AddSingleton<ISecurityService, SecurityService>()
-                .AddSingleton<IUserController, UserController>()
-                .AddTransient<IUserView, UserView>()
+                .AddSingleton<ICharacterController, CharacterController>()
+                .AddTransient<ICharacterView, CharacterView>()
                 .AddTransient<INewCharacterView, NewCharacterView>()
                 .AddSingleton<INewCharacterController, NewCharacterController>()
                 .AddTransient<ILoginView, LoginView>()
+                .AddTransient<IMainView, MainView>()
+                .AddTransient<IMainController, MainController>()
                 .AddHttpClient()
                 .BuildServiceProvider();
             
             var login = serviceProvider.GetService<ILoginView>();
 
-            var test = args != null || args.Length > 0;
+            var test = args != null && args.Length > 0;
 
             login.Show(test);
         }

@@ -13,13 +13,13 @@ namespace dol_con.Views
     {
         private readonly IConsoleWrapper _console;
         private readonly ISecurityService _security;
-        private readonly IUserView _userView;
+        private readonly ICharacterView _characterView;
 
-        public LoginView(IConsoleWrapper console, ISecurityService securityService, IUserView userView)
+        public LoginView(IConsoleWrapper console, ISecurityService securityService, ICharacterView characterView)
         {
             _console = console;
             _security = securityService;
-            _userView = userView;
+            _characterView = characterView;
         }
 
         public void Show(bool test = false)
@@ -51,7 +51,7 @@ namespace dol_con.Views
             else
             {
                 _console.WriteLine($"Welcome your ID is {_security.Identity.User.LocalId}!");
-                _userView.Show();
+                _characterView.Show();
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using dol_sdk.POCOs;
 using dol_sdk.Services;
 using Firebase.Auth;
@@ -18,28 +19,27 @@ namespace dol_sdk.Controllers
 
     public class CharacterController : ICharacterController
     {
-        private readonly IHttpClientFactory _factory;
-        private readonly IConfiguration _configuration;
+        private const string Bearer = "Bearer";
         private readonly ISecurityService _security;
+        private readonly HttpClient _client;
+        private readonly string _requestUri;
+        
+        private string IdToken => _security.Identity.FirebaseToken;
 
         public CharacterController(IHttpClientFactory factory, IConfiguration configuration, ISecurityService security)
         {
-            _factory = factory;
-            _configuration = configuration;
             _security = security;
+            _client = factory.CreateClient();
+            _requestUri = configuration["DolApiUri"] + "character";
         }
 
         public IEnumerable<Character> GetCharacterData()
         {
-            var client = _factory.CreateClient();
+            var request = new HttpRequestMessage(HttpMethod.Get, _requestUri);
 
-            var idToken = _security.Identity.FirebaseToken;
+            request.Headers.Authorization = new AuthenticationHeaderValue(Bearer, IdToken);
 
-            var request = new HttpRequestMessage(HttpMethod.Get, _configuration["DolApiUri"] + "character");
-
-            request.Headers.Add("Authorization", "Bearer " + idToken);
-
-            var response = client.SendAsync(request).Result;
+            var response = _client.SendAsync(request).Result;
             response.EnsureSuccessStatusCode();
             var stream = response.Content.ReadAsStreamAsync().Result;
             
@@ -53,7 +53,12 @@ namespace dol_sdk.Controllers
         public User User => _security.Identity.User;
         public void Delete(int id)
         {
-            throw new System.NotImplementedException();
+            var request = new HttpRequestMessage(HttpMethod.Delete, $"{_requestUri}/{id}");
+
+            request.Headers.Authorization = new AuthenticationHeaderValue(Bearer, IdToken);
+            
+            var response = _client.SendAsync(request).Result;
+            response.EnsureSuccessStatusCode();
         }
     }
 }

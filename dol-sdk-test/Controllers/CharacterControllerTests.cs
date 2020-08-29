@@ -17,19 +17,22 @@ namespace dol_sdk_test.Controllers
 {
     public class CharacterControllerTests
     {
-        private readonly ICharacterController _sut;
         private readonly IHttpClientFactory _factory;
+        private readonly IConfiguration _configuration;
+        private readonly ISecurityService _securityService;
 
         public CharacterControllerTests()
         {
             _factory = Substitute.For<IHttpClientFactory>();
             var configuration = Substitute.For<IConfiguration>();
 
-            configuration["DolApiUri"].Returns("https://bogus.run.app/");
+            _configuration = configuration;
+            _configuration["DolApiUri"].Returns("https://bogus.run.app/");
 
             var security = Substitute.For<ISecurityService>();
             var provider = Substitute.For<IFirebaseAuthProvider>();
-            security.Identity.Returns(new FirebaseAuthLink(provider,
+            _securityService = security;
+            _securityService.Identity.Returns(new FirebaseAuthLink(provider,
                 new FirebaseAuth
                 {
                     FirebaseToken = "dfghlksjhdfglkjh",
@@ -38,8 +41,6 @@ namespace dol_sdk_test.Controllers
                         LocalId = "12345"
                     }
                 }));
-
-            _sut = new CharacterController(_factory, configuration, security);
         }
 
         [Fact]
@@ -72,11 +73,15 @@ namespace dol_sdk_test.Controllers
 
             _factory.CreateClient().Returns(fakeHttpClient);
             
-            var actual = _sut.GetCharacterData();
+            var sut = new CharacterController(_factory, _configuration, _securityService);
+            
+            var actual = sut.GetCharacterData();
 
+            fakeHttpMessageHandler.RequestMessage.Method.Should().Be(HttpMethod.Get);
             fakeHttpMessageHandler.RequestMessage.RequestUri.Should().Be("https://bogus.run.app/character");
             fakeHttpMessageHandler.RequestMessage.Headers.Authorization.Scheme.Should().Be("Bearer");
             fakeHttpMessageHandler.RequestMessage.Headers.Authorization.Parameter.Should().Be("dfghlksjhdfglkjh");
+            
 
             actual.Should().BeEquivalentTo(expected);
         }
@@ -84,8 +89,29 @@ namespace dol_sdk_test.Controllers
         [Fact]
         public void UserLocalIdShouldReturnValueFromSecurityService()
         {
-            _sut.User.LocalId.Should().Be("12345");
+            var sut = new CharacterController(_factory, _configuration, _securityService);
+            sut.User.LocalId.Should().Be("12345");
         }
-        
+
+        [Fact]
+        public void DeleteShouldSendDeleteRequestToCharacter()
+        {
+            var fakeHttpMessageHandler = new FakeHttpMessageHandler(new HttpResponseMessage()
+            {
+                StatusCode = HttpStatusCode.OK
+            });
+            var fakeHttpClient = new HttpClient(fakeHttpMessageHandler);
+
+            _factory.CreateClient().Returns(fakeHttpClient);
+            
+            var sut = new CharacterController(_factory, _configuration, _securityService);
+
+            sut.Delete(1);
+
+            fakeHttpMessageHandler.RequestMessage.Method.Should().Be(HttpMethod.Delete);
+            fakeHttpMessageHandler.RequestMessage.RequestUri.Should().Be("https://bogus.run.app/character/1");
+            fakeHttpMessageHandler.RequestMessage.Headers.Authorization.Scheme.Should().Be("Bearer");
+            fakeHttpMessageHandler.RequestMessage.Headers.Authorization.Parameter.Should().Be("dfghlksjhdfglkjh");
+        }
     }
 }

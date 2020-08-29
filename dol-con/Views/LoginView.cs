@@ -36,16 +36,16 @@ namespace dol_con.Views
             _console.WriteLine("");
             _console.WriteLine("Login to proceed.");
             _console.Write("Enter email: ");
-            var user = _console.ReadLine();
+            var user = _console.ReadLine(1);
             _console.WriteLine("");
             _console.Write("Enter password: ");
-            var password = _console.ReadLine();
+            var password = _console.ReadLine(2);
 
             _security.Login(user, password);
             if (_security.Identity?.User == null)
             {
                 _console.WriteLine("Login failed! Press any key to close...");
-                _console.ReadLine();
+                _console.ReadLine(3);
             }
             else
             {

@@ -18,7 +18,8 @@ namespace dol_con_test.Views
         {
             _characterView = Substitute.For<ICharacterView>();
             _console = Substitute.For<IConsoleWrapper>();
-            _console.ReadLine().Returns("text");
+            _console.ReadLine(1).Returns("user");
+            _console.ReadLine(2).Returns("pass");
             _security = Substitute.For<ISecurityService>();
             var authProvider = Substitute.For<IFirebaseAuthProvider>();
             var id = new FirebaseAuthLink(authProvider, new FirebaseAuth())
@@ -52,8 +53,9 @@ namespace dol_con_test.Views
             _loginView.Show();
             _console.Received(1).Write("Enter email: ");
             _console.Received(1).Write("Enter password: ");
-            _console.Received(2).ReadLine();
-            _security.Received(1).Login("text", "text");
+            _console.Received(1).ReadLine(1);
+            _console.Received(1).ReadLine(2);
+            _security.Received(1).Login("user", "pass");
         }
 
         [Fact]

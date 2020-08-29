@@ -35,33 +35,52 @@ namespace dol_con.Views
             }
 
             _console.WriteLine("N - Create a new character.");
-            _console.WriteLine("D - Delete a character.");
+            _console.WriteLine("D # - Delete a character where # is the character ID.");
             _console.Write("Enter selection: ");
-            var badChoice = true;
+            var retry = true;
             var tries = 0;
-            while (badChoice && tries < 3)
+            while (retry && tries < 3)
             {
-                var selection = _console.ReadLine();
+                retry = false;
+                var selection = _console.ReadLine(1);
+                var split = selection.Split(' ');
                 if (int.TryParse(selection, out _) && characters.Any(x => x.Id == Convert.ToInt32(selection)))
                 {
-                    badChoice = false;
                     _mainView.Show(Convert.ToInt32(selection));
                 }
                 else if (selection.ToUpper() == "N")
                 {
-                    badChoice = false;
                     _newCharacterView.Show();
+                }
+                else if (selection.ToUpper().StartsWith('D') &&
+                         split.Length == 2 &&
+                         int.TryParse(split[1], out _) &&
+                         characters.Any(x => x.Id == Convert.ToInt32(split[1])))
+                {
+                    var id = Convert.ToInt32(split[1]);
+                    var name = characters.First(x => x.Id == id).Name;
+                    _console.Write($"Are you sure you want delete {name}? (Y)es or (N)o: ");
+                    var yesNo = _console.ReadLine(2);
+                    if (yesNo.ToUpper().Trim() == "Y")
+                    {
+                        _character.Delete(id);
+                        _console.WriteLine($"{name} was deleted");
+                        Show();
+                    }
+                    else
+                    {
+                        retry = true;
+                        tries = 0;
+                        _console.Write("Enter selection: ");
+                    }
                 }
                 else
                 {
-                    _console.WriteLine("Invalid selection. Try again.");
                     tries++;
+                    var returnMessage = tries < 3 ? "Try again." : "Go home...";
+                    _console.WriteLine($"Invalid selection. {returnMessage}");
+                    retry = true;
                 }
-            }
-
-            if (badChoice)
-            {
-                _console.WriteLine("Invalid selection. Go home...");
             }
         }
     }

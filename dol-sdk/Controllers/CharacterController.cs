@@ -13,6 +13,7 @@ namespace dol_sdk.Controllers
     {
         IEnumerable<Character> GetCharacterData();
         User User { get; }
+        void Delete(int id);
     }
 
     public class CharacterController : ICharacterController
@@ -50,5 +51,9 @@ namespace dol_sdk.Controllers
         }
 
         public User User => _security.Identity.User;
+        public void Delete(int id)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

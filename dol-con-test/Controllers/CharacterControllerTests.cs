@@ -31,8 +31,15 @@ namespace dol_con_test.Controllers
             _security = Substitute.For<ISecurityService>();
             var provider = Substitute.For<IFirebaseAuthProvider>();
             _security.Identity.Returns(new FirebaseAuthLink(provider,
-                new FirebaseAuth {FirebaseToken = "dfghlksjhdfglkjh"}));
-            
+                new FirebaseAuth
+                {
+                    FirebaseToken = "dfghlksjhdfglkjh",
+                    User = new User
+                    {
+                        LocalId = "12345"
+                    }
+                }));
+
             _sut = new CharacterController(_factory, configuration, _security);
         }
 
@@ -62,13 +69,24 @@ namespace dol_con_test.Controllers
                     expectedJson,
                     Encoding.UTF8, "application/json")
             });
-            var fakeHttpClient = new HttpClient(fakeHttpMessageHandler);
+            var fakeHttpClient = Substitute.For<HttpClient>(fakeHttpMessageHandler);
 
             _factory.CreateClient().Returns(fakeHttpClient);
             
             var actual = _sut.GetCharacterData();
 
+            fakeHttpMessageHandler.RequestMessage.RequestUri.Should().Be("https://bogus.run.app/character");
+            fakeHttpMessageHandler.RequestMessage.Headers.Authorization.Scheme.Should().Be("Bearer");
+            fakeHttpMessageHandler.RequestMessage.Headers.Authorization.Parameter.Should().Be("dfghlksjhdfglkjh");
+
             actual.Should().BeEquivalentTo(expected);
         }
+
+        [Fact]
+        public void UserLocalIdShouldReturnValueFromSecurityService()
+        {
+            _sut.User.LocalId.Should().Be("12345");
+        }
+        
     }
 }

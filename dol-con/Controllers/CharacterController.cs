@@ -34,7 +34,7 @@ namespace dol_con.Controllers
 
             var idToken = _security.Identity.FirebaseToken;
 
-            var request = new HttpRequestMessage(HttpMethod.Get, _configuration["DolApiUri"] + "weatherforecast");
+            var request = new HttpRequestMessage(HttpMethod.Get, _configuration["DolApiUri"] + "character");
 
             request.Headers.Add("Authorization", "Bearer " + idToken);
 

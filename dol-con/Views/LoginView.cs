@@ -1,24 +1,24 @@
-﻿using dol_con.Services;
-using dol_con.Utilities;
+﻿using dol_con.Utilities;
+using dol_sdk.Services;
 
-namespace dol_con.Scenes
+namespace dol_con.Views
 {
-    public interface ITitle
+    public interface ILoginView
     {
         void Show(bool test);
     }
 
-    public class Title : ITitle
+    public class LoginView : ILoginView
     {
         private readonly IConsoleWrapper _console;
         private readonly ISecurityService _security;
-        private readonly IUserService _user;
+        private readonly ICharacterView _characterView;
 
-        public Title(IConsoleWrapper console, ISecurityService securityService, IUserService userService)
+        public LoginView(IConsoleWrapper console, ISecurityService securityService, ICharacterView characterView)
         {
             _console = console;
             _security = securityService;
-            _user = userService;
+            _characterView = characterView;
         }
 
         public void Show(bool test = false)
@@ -36,21 +36,21 @@ namespace dol_con.Scenes
             _console.WriteLine("");
             _console.WriteLine("Login to proceed.");
             _console.Write("Enter email: ");
-            var user = _console.ReadLine();
+            var user = _console.ReadLine(1);
             _console.WriteLine("");
             _console.Write("Enter password: ");
-            var password = _console.ReadLine();
+            var password = _console.ReadLine(2);
 
             _security.Login(user, password);
             if (_security.Identity?.User == null)
             {
                 _console.WriteLine("Login failed! Press any key to close...");
-                _console.ReadLine();
+                _console.ReadLine(3);
             }
             else
             {
                 _console.WriteLine($"Welcome your ID is {_security.Identity.User.LocalId}!");
-                _console.WriteLine(_user.GetUserData(_security.Identity.FirebaseToken));
+                _characterView.Show();
             }
         }
     }

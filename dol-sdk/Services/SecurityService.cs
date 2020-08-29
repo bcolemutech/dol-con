@@ -1,6 +1,6 @@
 ﻿using Firebase.Auth;
 
-namespace dol_con.Services
+namespace dol_sdk.Services
 {
     public interface ISecurityService
     {

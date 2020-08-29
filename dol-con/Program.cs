@@ -1,6 +1,7 @@
-﻿using dol_con.Scenes;
-using dol_con.Services;
-using dol_con.Utilities;
+﻿using dol_con.Utilities;
+using dol_con.Views;
+using dol_sdk.Controllers;
+using dol_sdk.Services;
 using Firebase.Auth;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +13,7 @@ namespace dol_con
         public static void Main(string[] args)
         {
             IConfiguration configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile("appsettings.json", false, true)
                 .Build();
             
             IFirebaseAuthProvider auth = new FirebaseAuthProvider(new FirebaseConfig(configuration["FirebaseApiKey"]));
@@ -20,18 +21,23 @@ namespace dol_con
             var serviceProvider = new ServiceCollection()
                 .AddSingleton(configuration)
                 .AddSingleton(auth)
-                .AddSingleton<ITitle, Title>()
-                .AddSingleton<IConsoleWrapper, ConsoleWrapper>()
+                .AddTransient<IConsoleWrapper, ConsoleWrapper>()
                 .AddSingleton<ISecurityService, SecurityService>()
-                .AddSingleton<IUserService, UserService>()
+                .AddSingleton<ICharacterController, CharacterController>()
+                .AddTransient<ICharacterView, CharacterView>()
+                .AddTransient<INewCharacterView, NewCharacterView>()
+                .AddSingleton<INewCharacterController, NewCharacterController>()
+                .AddTransient<ILoginView, LoginView>()
+                .AddTransient<IMainView, MainView>()
+                .AddTransient<IMainController, MainController>()
                 .AddHttpClient()
                 .BuildServiceProvider();
             
-            var title = serviceProvider.GetService<ITitle>();
+            var login = serviceProvider.GetService<ILoginView>();
 
             var test = args != null && args.Length > 0;
 
-            title.Show(test);
+            login.Show(test);
         }
     }
 }

@@ -2,10 +2,10 @@
 using System.Net;
 using System.Net.Http;
 using System.Text;
-using dol_con.Controllers;
-using dol_con.POCOs;
-using dol_con.Services;
-using dol_con_test.TestHelpers;
+using dol_sdk.Controllers;
+using dol_sdk.POCOs;
+using dol_sdk.Services;
+using dol_sdk_test.TestHelpers;
 using Firebase.Auth;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
@@ -13,13 +13,12 @@ using Newtonsoft.Json;
 using NSubstitute;
 using Xunit;
 
-namespace dol_con_test.Controllers
+namespace dol_sdk_test.Controllers
 {
     public class CharacterControllerTests
     {
         private readonly ICharacterController _sut;
         private readonly IHttpClientFactory _factory;
-        private readonly ISecurityService _security;
 
         public CharacterControllerTests()
         {
@@ -28,9 +27,9 @@ namespace dol_con_test.Controllers
 
             configuration["DolApiUri"].Returns("https://bogus.run.app/");
 
-            _security = Substitute.For<ISecurityService>();
+            var security = Substitute.For<ISecurityService>();
             var provider = Substitute.For<IFirebaseAuthProvider>();
-            _security.Identity.Returns(new FirebaseAuthLink(provider,
+            security.Identity.Returns(new FirebaseAuthLink(provider,
                 new FirebaseAuth
                 {
                     FirebaseToken = "dfghlksjhdfglkjh",
@@ -40,7 +39,7 @@ namespace dol_con_test.Controllers
                     }
                 }));
 
-            _sut = new CharacterController(_factory, configuration, _security);
+            _sut = new CharacterController(_factory, configuration, security);
         }
 
         [Fact]

@@ -1,6 +1,5 @@
-﻿using dol_con.Controllers;
-using dol_con.Services;
-using dol_con.Utilities;
+﻿using dol_con.Utilities;
+using dol_sdk.Services;
 
 namespace dol_con.Views
 {

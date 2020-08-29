@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
-using dol_con.POCOs;
-using dol_con.Services;
+using dol_sdk.POCOs;
+using dol_sdk.Services;
 using Firebase.Auth;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
-namespace dol_con.Controllers
+namespace dol_sdk.Controllers
 {
     public interface ICharacterController
     {

@@ -1,7 +1,7 @@
-﻿using dol_con.Controllers;
-using dol_con.Services;
-using dol_con.Utilities;
+﻿using dol_con.Utilities;
 using dol_con.Views;
+using dol_sdk.Controllers;
+using dol_sdk.Services;
 using Firebase.Auth;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

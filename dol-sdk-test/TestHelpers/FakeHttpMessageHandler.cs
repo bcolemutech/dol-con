@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace dol_con_test.TestHelpers
+namespace dol_sdk_test.TestHelpers
 {
     public class FakeHttpMessageHandler : DelegatingHandler
     {

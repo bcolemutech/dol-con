@@ -1,4 +1,4 @@
-﻿namespace dol_con.Views
+﻿namespace dol_sdk.Controllers
 {
     public interface IMainController
     {

@@ -1,10 +1,10 @@
-﻿using dol_con.Services;
+﻿using dol_sdk.Services;
 using Firebase.Auth;
 using FluentAssertions;
 using NSubstitute;
 using Xunit;
 
-namespace dol_con_test.Services
+namespace dol_sdk_test.Controllers
 {
     public class SecurityServiceTests
     {

@@ -1,4 +1,4 @@
-﻿namespace dol_con.Controllers
+﻿namespace dol_sdk.Controllers
 {
     public interface INewCharacterController
     {

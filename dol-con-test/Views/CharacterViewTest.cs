@@ -1,5 +1,5 @@
-﻿using dol_con.Controllers;
-using dol_con.POCOs;
+﻿using dol_sdk.Controllers;
+using dol_sdk.POCOs;
 using dol_con.Utilities;
 using dol_con.Views;
 using Firebase.Auth;

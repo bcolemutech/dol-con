@@ -1,4 +1,4 @@
-﻿namespace dol_con.POCOs
+﻿namespace dol_sdk.POCOs
 {
     public class Character
     {

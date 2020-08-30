@@ -15,6 +15,7 @@ namespace dol_sdk.Controllers
         IEnumerable<Character> GetCharacterData();
         User User { get; }
         void Delete(int id);
+        void CreateCharacter(string name);
     }
 
     public class CharacterController : ICharacterController
@@ -54,6 +55,16 @@ namespace dol_sdk.Controllers
         public void Delete(int id)
         {
             var request = new HttpRequestMessage(HttpMethod.Delete, $"{_requestUri}/{id}");
+
+            request.Headers.Authorization = new AuthenticationHeaderValue(Bearer, IdToken);
+            
+            var response = _client.SendAsync(request).Result;
+            response.EnsureSuccessStatusCode();
+        }
+
+        public void CreateCharacter(string name)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Put, $"{_requestUri}/{name}");
 
             request.Headers.Authorization = new AuthenticationHeaderValue(Bearer, IdToken);
             

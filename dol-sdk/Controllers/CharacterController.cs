@@ -15,6 +15,7 @@ namespace dol_sdk.Controllers
         IEnumerable<Character> GetCharacterData();
         User User { get; }
         void Delete(int id);
+        void CreateCharacter(string name);
     }
 
     public class CharacterController : ICharacterController
@@ -59,6 +60,11 @@ namespace dol_sdk.Controllers
             
             var response = _client.SendAsync(request).Result;
             response.EnsureSuccessStatusCode();
+        }
+
+        public void CreateCharacter(string name)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

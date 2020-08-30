@@ -26,7 +26,6 @@ namespace dol_con
                 .AddSingleton<ICharacterController, CharacterController>()
                 .AddTransient<ICharacterView, CharacterView>()
                 .AddTransient<INewCharacterView, NewCharacterView>()
-                .AddSingleton<INewCharacterController, NewCharacterController>()
                 .AddTransient<ILoginView, LoginView>()
                 .AddTransient<IMainView, MainView>()
                 .AddTransient<IMainController, MainController>()

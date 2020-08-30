@@ -113,5 +113,26 @@ namespace dol_sdk_test.Controllers
             fakeHttpMessageHandler.RequestMessage.Headers.Authorization.Scheme.Should().Be("Bearer");
             fakeHttpMessageHandler.RequestMessage.Headers.Authorization.Parameter.Should().Be("dfghlksjhdfglkjh");
         }
+
+        [Fact]
+        public void CreateCharacterShouldSendPutRequestToCharacterWithName()
+        {
+            var fakeHttpMessageHandler = new FakeHttpMessageHandler(new HttpResponseMessage()
+            {
+                StatusCode = HttpStatusCode.OK
+            });
+            var fakeHttpClient = new HttpClient(fakeHttpMessageHandler);
+
+            _factory.CreateClient().Returns(fakeHttpClient);
+            
+            var sut = new CharacterController(_factory, _configuration, _securityService);
+
+            sut.CreateCharacter("Jake");
+
+            fakeHttpMessageHandler.RequestMessage.Method.Should().Be(HttpMethod.Put);
+            fakeHttpMessageHandler.RequestMessage.RequestUri.Should().Be("https://bogus.run.app/character/Jake");
+            fakeHttpMessageHandler.RequestMessage.Headers.Authorization.Scheme.Should().Be("Bearer");
+            fakeHttpMessageHandler.RequestMessage.Headers.Authorization.Parameter.Should().Be("dfghlksjhdfglkjh");
+        }
     }
 }

@@ -64,7 +64,12 @@ namespace dol_sdk.Controllers
 
         public void CreateCharacter(string name)
         {
-            throw new System.NotImplementedException();
+            var request = new HttpRequestMessage(HttpMethod.Put, $"{_requestUri}/{name}");
+
+            request.Headers.Authorization = new AuthenticationHeaderValue(Bearer, IdToken);
+            
+            var response = _client.SendAsync(request).Result;
+            response.EnsureSuccessStatusCode();
         }
     }
 }

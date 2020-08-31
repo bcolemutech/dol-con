@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -37,7 +36,7 @@ namespace dol_sdk_test.Controllers
             _securityService.Identity.Returns(new FirebaseAuthLink(provider,
                 new FirebaseAuth
                 {
-                    FirebaseToken = "dfghlksjhdfglkjh",
+                    FirebaseToken = "fakeToken",
                     User = new User
                     {
                         LocalId = "12345"
@@ -86,7 +85,7 @@ namespace dol_sdk_test.Controllers
             fakeHttpMessageHandler.RequestMessage.Method.Should().Be(HttpMethod.Get);
             fakeHttpMessageHandler.RequestMessage.RequestUri.Should().Be("https://bogus.run.app/character");
             fakeHttpMessageHandler.RequestMessage.Headers.Authorization.Scheme.Should().Be("Bearer");
-            fakeHttpMessageHandler.RequestMessage.Headers.Authorization.Parameter.Should().Be("dfghlksjhdfglkjh");
+            fakeHttpMessageHandler.RequestMessage.Headers.Authorization.Parameter.Should().Be("fakeToken");
             
 
             actual.Should().BeEquivalentTo(expected);
@@ -117,7 +116,7 @@ namespace dol_sdk_test.Controllers
             fakeHttpMessageHandler.RequestMessage.Method.Should().Be(HttpMethod.Delete);
             fakeHttpMessageHandler.RequestMessage.RequestUri.Should().Be("https://bogus.run.app/character/1");
             fakeHttpMessageHandler.RequestMessage.Headers.Authorization.Scheme.Should().Be("Bearer");
-            fakeHttpMessageHandler.RequestMessage.Headers.Authorization.Parameter.Should().Be("dfghlksjhdfglkjh");
+            fakeHttpMessageHandler.RequestMessage.Headers.Authorization.Parameter.Should().Be("fakeToken");
         }
 
         [Fact]
@@ -138,7 +137,7 @@ namespace dol_sdk_test.Controllers
             fakeHttpMessageHandler.RequestMessage.Method.Should().Be(HttpMethod.Put);
             fakeHttpMessageHandler.RequestMessage.RequestUri.Should().Be("https://bogus.run.app/character/Jake");
             fakeHttpMessageHandler.RequestMessage.Headers.Authorization.Scheme.Should().Be("Bearer");
-            fakeHttpMessageHandler.RequestMessage.Headers.Authorization.Parameter.Should().Be("dfghlksjhdfglkjh");
+            fakeHttpMessageHandler.RequestMessage.Headers.Authorization.Parameter.Should().Be("fakeToken");
         }
     }
 }

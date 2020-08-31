@@ -2,6 +2,7 @@
 using System.Linq;
 using dol_con.Utilities;
 using dol_sdk.Controllers;
+using dol_sdk.Enums;
 
 namespace dol_con.Views
 {
@@ -16,12 +17,18 @@ namespace dol_con.Views
         private readonly ICharacterController _character;
         private readonly IMainView _mainView;
         private readonly INewCharacterView _newCharacterView;
-        public CharacterView(IConsoleWrapper console, ICharacterController characterController, IMainView mainView, INewCharacterView newCharacterView)
+        private readonly IAdminView _adminView;
+        public CharacterView(IConsoleWrapper console,
+            ICharacterController characterController,
+            IMainView mainView,
+            INewCharacterView newCharacterView,
+            IAdminView adminView)
         {
             _console = console;
             _character = characterController;
             _mainView = mainView;
             _newCharacterView = newCharacterView;
+            _adminView = adminView;
         }
 
         public void Show()
@@ -36,6 +43,10 @@ namespace dol_con.Views
 
             _console.WriteLine("N - Create a new character.");
             _console.WriteLine("D # - Delete a character where # is the character ID.");
+            if (player.Authority == Authority.Admin)
+            {
+                _console.WriteLine("A - Admin options.");
+            }
             _console.Write("Enter selection: ");
             var retry = true;
             var tries = 0;
@@ -73,6 +84,10 @@ namespace dol_con.Views
                         tries = 0;
                         _console.Write("Enter selection: ");
                     }
+                }
+                else if (selection.ToUpper().Trim() == "A")
+                {
+                    _adminView.Show();
                 }
                 else
                 {

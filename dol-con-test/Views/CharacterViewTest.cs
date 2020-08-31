@@ -4,8 +4,8 @@ using dol_sdk.Controllers;
 using dol_sdk.POCOs;
 using dol_con.Utilities;
 using dol_con.Views;
+using dol_sdk.Enums;
 using Firebase.Auth;
-using FluentAssertions;
 using NSubstitute;
 using Xunit;
 
@@ -18,18 +18,25 @@ namespace dol_con_test.Views
         private readonly IConsoleWrapper _console;
         private readonly INewCharacterView _newCharacter;
         private readonly IMainView _mainView;
+        private readonly IAdminView _adminView;
 
         public CharacterViewTest()
         {
+            _adminView = Substitute.For<IAdminView>();
+            
             _characterController = Substitute.For<ICharacterController>();
 
-            var characters = new List<Character>
+            var player = new Player
             {
-                new Character {Name = "Sally", Id = 1}, new Character {Name = "Rick", Id = 2},
-                new Character {Name = "Joe", Id = 3}
+                Authority = Authority.Player, 
+                Characters = new List<Character>
+                {
+                    new Character {Name = "Sally", Id = 1}, new Character {Name = "Rick", Id = 2},
+                    new Character {Name = "Joe", Id = 3}
+                }
             };
 
-            _characterController.GetCharacterData().Returns(characters);
+            _characterController.GetCharacterData().Returns(player);
             var user = new User
             {
                 Email = "bob@test.com"
@@ -38,12 +45,12 @@ namespace dol_con_test.Views
             _characterController.User.Returns(user);
             
             _characterController.When(x => x.Delete(1))
-                .Do(info => characters.Remove(characters.First(x => x.Id == 1)));
+                .Do(info => player.Characters.Remove(player.Characters.First(x => x.Id == 1)));
 
             _console = Substitute.For<IConsoleWrapper>();
             _newCharacter = Substitute.For<INewCharacterView>();
             _mainView = Substitute.For<IMainView>();
-            _sut = new CharacterView(_console, _characterController, _mainView, _newCharacter);
+            _sut = new CharacterView(_console, _characterController, _mainView, _newCharacter, _adminView);
         }
 
         [Fact]
@@ -58,7 +65,7 @@ namespace dol_con_test.Views
         }
 
         [Fact]
-        public void ShowShouldListAvailableCharactersAndOptionToCreate()
+        public void GivenUserIsPlayerWhenShowThenListAvailableCharactersAndOptionToCreate()
         {
             _sut.Show();
 
@@ -69,6 +76,35 @@ namespace dol_con_test.Views
             _console.Received(1).WriteLine("3 - Joe");
             _console.Received(1).WriteLine("N - Create a new character.");
             _console.Received(1).WriteLine("D # - Delete a character where # is the character ID.");
+            _console.Received(0).WriteLine("A - Admin options.");
+            _console.Received(1).Write("Enter selection: ");
+        }
+        
+        [Fact]
+        public void GivenUserIsTesterWhenShowThenListAvailableCharactersAndOptionToCreate()
+        {
+            var player = new Player
+            {
+                Authority = Authority.Tester, 
+                Characters = new List<Character>
+                {
+                    new Character {Name = "Sally", Id = 1}, new Character {Name = "Rick", Id = 2},
+                    new Character {Name = "Joe", Id = 3}
+                }
+            };
+
+            _characterController.GetCharacterData().Returns(player);
+            
+            _sut.Show();
+
+            _characterController.Received(1).GetCharacterData();
+
+            _console.Received(1).WriteLine("1 - Sally");
+            _console.Received(1).WriteLine("2 - Rick");
+            _console.Received(1).WriteLine("3 - Joe");
+            _console.Received(1).WriteLine("N - Create a new character.");
+            _console.Received(1).WriteLine("D # - Delete a character where # is the character ID.");
+            _console.Received(0).WriteLine("A - Admin options.");
             _console.Received(1).Write("Enter selection: ");
         }
 
@@ -129,6 +165,56 @@ namespace dol_con_test.Views
             _console.Received(2).WriteLine("N - Create a new character.");
             _console.Received(2).WriteLine("D # - Delete a character where # is the character ID.");
             _console.Received(2).Write("Enter selection: ");
+        }
+
+        [Fact]
+        public void GivenUserIsAdminWhenShowThenShowAForAdminOptions()
+        {
+            var player = new Player
+            {
+                Authority = Authority.Admin, 
+                Characters = new List<Character>
+                {
+                    new Character {Name = "Sally", Id = 1}, new Character {Name = "Rick", Id = 2},
+                    new Character {Name = "Joe", Id = 3}
+                }
+            };
+
+            _characterController.GetCharacterData().Returns(player);
+            
+            _sut.Show();
+
+            _characterController.Received(1).GetCharacterData();
+
+            _console.Received(1).WriteLine("1 - Sally");
+            _console.Received(1).WriteLine("2 - Rick");
+            _console.Received(1).WriteLine("3 - Joe");
+            _console.Received(1).WriteLine("N - Create a new character.");
+            _console.Received(1).WriteLine("D # - Delete a character where # is the character ID.");
+            _console.Received(1).WriteLine("A - Admin options.");
+            _console.Received(1).Write("Enter selection: ");
+        }
+
+        [Fact]
+        public void GivenUserIsAdminWhenSelectingAThenShowAdminView()
+        {
+            var player = new Player
+            {
+                Authority = Authority.Player, 
+                Characters = new List<Character>
+                {
+                    new Character {Name = "Sally", Id = 1}, new Character {Name = "Rick", Id = 2},
+                    new Character {Name = "Joe", Id = 3}
+                }
+            };
+
+            _characterController.GetCharacterData().Returns(player);
+
+            _console.ReadLine(1).Returns("a");
+            
+            _sut.Show();
+
+            _adminView.Received(1).Show();
         }
     }
 }

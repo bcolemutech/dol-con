@@ -4,6 +4,7 @@ using dol_sdk.Controllers;
 using dol_sdk.POCOs;
 using dol_con.Utilities;
 using dol_con.Views;
+using dol_sdk.Enums;
 using Firebase.Auth;
 using FluentAssertions;
 using NSubstitute;
@@ -23,13 +24,16 @@ namespace dol_con_test.Views
         {
             _characterController = Substitute.For<ICharacterController>();
 
-            var characters = new List<Character>
+            var player = new Player
             {
-                new Character {Name = "Sally", Id = 1}, new Character {Name = "Rick", Id = 2},
-                new Character {Name = "Joe", Id = 3}
+                Authority = Authority.Player, Characters = new List<Character>
+                {
+                    new Character {Name = "Sally", Id = 1}, new Character {Name = "Rick", Id = 2},
+                    new Character {Name = "Joe", Id = 3}
+                }
             };
 
-            _characterController.GetCharacterData().Returns(characters);
+            _characterController.GetCharacterData().Returns(player);
             var user = new User
             {
                 Email = "bob@test.com"
@@ -38,7 +42,7 @@ namespace dol_con_test.Views
             _characterController.User.Returns(user);
             
             _characterController.When(x => x.Delete(1))
-                .Do(info => characters.Remove(characters.First(x => x.Id == 1)));
+                .Do(info => player.Characters.Remove(player.Characters.First(x => x.Id == 1)));
 
             _console = Substitute.For<IConsoleWrapper>();
             _newCharacter = Substitute.For<INewCharacterView>();

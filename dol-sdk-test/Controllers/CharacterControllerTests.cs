@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using dol_sdk.Controllers;
+using dol_sdk.Enums;
 using dol_sdk.POCOs;
 using dol_sdk.Services;
 using dol_sdk_test.TestHelpers;
@@ -46,17 +48,21 @@ namespace dol_sdk_test.Controllers
         [Fact]
         public void GetCharacterDataShouldUseTokenToRetrieveListOfCharacters()
         {
-            var expected = new List<Character>()
+            var expected = new Player
             {
-                new Character
+                Authority = Authority.Player,
+                Characters = new List<Character>()
                 {
-                    Id = 5,
-                    Name = "Sally"
-                },
-                new Character
-                {
-                    Id = 3,
-                    Name = "Bert"
+                    new Character
+                    {
+                        Id = 5,
+                        Name = "Sally"
+                    },
+                    new Character
+                    {
+                        Id = 3,
+                        Name = "Bert"
+                    }
                 }
             };
 

@@ -26,10 +26,10 @@ namespace dol_con.Views
 
         public void Show()
         {
-            var characters = _character.GetCharacterData().ToArray();
+            var player = _character.GetCharacterData();
             _console.Clear();
             _console.WriteLine($"Welcome {_character.User.Email} choose a character to play:");
-            foreach (var character in characters)
+            foreach (var character in player.Characters)
             {
                 _console.WriteLine($"{character.Id} - {character.Name}");
             }
@@ -44,7 +44,7 @@ namespace dol_con.Views
                 retry = false;
                 var selection = _console.ReadLine(1);
                 var split = selection.Split(' ');
-                if (int.TryParse(selection, out _) && characters.Any(x => x.Id == Convert.ToInt32(selection)))
+                if (int.TryParse(selection, out _) && player.Characters.Any(x => x.Id == Convert.ToInt32(selection)))
                 {
                     _mainView.Show(Convert.ToInt32(selection));
                 }
@@ -55,10 +55,10 @@ namespace dol_con.Views
                 else if (selection.ToUpper().StartsWith('D') &&
                          split.Length == 2 &&
                          int.TryParse(split[1], out _) &&
-                         characters.Any(x => x.Id == Convert.ToInt32(split[1])))
+                         player.Characters.Any(x => x.Id == Convert.ToInt32(split[1])))
                 {
                     var id = Convert.ToInt32(split[1]);
-                    var name = characters.First(x => x.Id == id).Name;
+                    var name = player.Characters.First(x => x.Id == id).Name;
                     _console.Write($"Are you sure you want delete {name}? (Y)es or (N)o: ");
                     var yesNo = _console.ReadLine(2);
                     if (yesNo.ToUpper().Trim() == "Y")

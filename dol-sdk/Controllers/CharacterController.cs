@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using dol_sdk.POCOs;
@@ -46,8 +45,8 @@ namespace dol_sdk.Controllers
             
             var serializer = new JsonSerializer();
 
-            using var sr = new StreamReader(stream);
-            using var jsonTextReader = new JsonTextReader(sr);
+            var sr = new StreamReader(stream);
+            var jsonTextReader = new JsonTextReader(sr);
             return serializer.Deserialize<Player>(jsonTextReader);
         }
 

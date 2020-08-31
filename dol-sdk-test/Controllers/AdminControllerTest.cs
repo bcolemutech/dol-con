@@ -15,23 +15,20 @@ namespace dol_sdk_test.Controllers
     public class AdminControllerTest
     {
         private readonly IAdminController _sut;
-        private readonly IHttpClientFactory _factory;
-        private readonly IConfiguration _configuration;
-        private readonly ISecurityService _securityService;
-        private FakeHttpMessageHandler _fakeHttpMessageHandler;
+        private readonly FakeHttpMessageHandler _fakeHttpMessageHandler;
 
         public AdminControllerTest()
         {
-            _factory = Substitute.For<IHttpClientFactory>();
+            var factory = Substitute.For<IHttpClientFactory>();
             var configuration = Substitute.For<IConfiguration>();
 
-            _configuration = configuration;
-            _configuration["DolApiUri"].Returns("https://bogus.run.app/");
+            var configuration1 = configuration;
+            configuration1["DolApiUri"].Returns("https://bogus.run.app/");
 
             var security = Substitute.For<ISecurityService>();
             var provider = Substitute.For<IFirebaseAuthProvider>();
-            _securityService = security;
-            _securityService.Identity.Returns(new FirebaseAuthLink(provider,
+            var securityService = security;
+            securityService.Identity.Returns(new FirebaseAuthLink(provider,
                 new FirebaseAuth
                 {
                     FirebaseToken = "fakeToken",
@@ -46,9 +43,9 @@ namespace dol_sdk_test.Controllers
             });
             var fakeHttpClient = new HttpClient(_fakeHttpMessageHandler);
 
-            _factory.CreateClient().Returns(fakeHttpClient);
+            factory.CreateClient().Returns(fakeHttpClient);
 
-            _sut = new AdminController(_factory, _configuration, _securityService);
+            _sut = new AdminController(factory, configuration1, securityService);
         }
 
         [Fact]

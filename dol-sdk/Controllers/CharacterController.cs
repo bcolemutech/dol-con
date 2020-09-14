@@ -13,7 +13,7 @@ namespace dol_sdk.Controllers
     {
         Player GetCharacterData();
         User User { get; }
-        void Delete(int id);
+        void Delete(string id);
         void CreateCharacter(string name);
     }
 
@@ -51,7 +51,7 @@ namespace dol_sdk.Controllers
         }
 
         public User User => _security.Identity.User;
-        public void Delete(int id)
+        public void Delete(string id)
         {
             var request = new HttpRequestMessage(HttpMethod.Delete, $"{_requestUri}/{id}");
 

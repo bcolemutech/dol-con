@@ -2,12 +2,12 @@
 {
     public interface IMainView
     {
-        void Show(int i);
+        void Show(string i);
     }
 
     public class MainView : IMainView
     {
-        public void Show(int i)
+        public void Show(string i)
         {
             throw new System.NotImplementedException();
         }

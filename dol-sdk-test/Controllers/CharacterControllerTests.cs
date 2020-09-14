@@ -54,12 +54,10 @@ namespace dol_sdk_test.Controllers
                 {
                     new Character
                     {
-                        Id = 5,
                         Name = "Sally"
                     },
                     new Character
                     {
-                        Id = 3,
                         Name = "Bert"
                     }
                 }
@@ -111,10 +109,10 @@ namespace dol_sdk_test.Controllers
             
             var sut = new CharacterController(_factory, _configuration, _securityService);
 
-            sut.Delete(1);
+            sut.Delete("Bob");
 
             fakeHttpMessageHandler.RequestMessage.Method.Should().Be(HttpMethod.Delete);
-            fakeHttpMessageHandler.RequestMessage.RequestUri.Should().Be("https://bogus.run.app/character/1");
+            fakeHttpMessageHandler.RequestMessage.RequestUri.Should().Be("https://bogus.run.app/character/Bob");
             fakeHttpMessageHandler.RequestMessage.Headers.Authorization.Scheme.Should().Be("Bearer");
             fakeHttpMessageHandler.RequestMessage.Headers.Authorization.Parameter.Should().Be("fakeToken");
         }

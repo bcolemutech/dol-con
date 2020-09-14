@@ -31,8 +31,8 @@ namespace dol_con_test.Views
                 Authority = Authority.Player, 
                 Characters = new List<Character>
                 {
-                    new Character {Name = "Sally", Id = 1}, new Character {Name = "Rick", Id = 2},
-                    new Character {Name = "Joe", Id = 3}
+                    new Character {Name = "Sally"}, new Character {Name = "Rick"},
+                    new Character {Name = "Joe"}
                 }
             };
 
@@ -44,8 +44,8 @@ namespace dol_con_test.Views
 
             _characterController.User.Returns(user);
             
-            _characterController.When(x => x.Delete(1))
-                .Do(info => player.Characters.Remove(player.Characters.First(x => x.Id == 1)));
+            _characterController.When(x => x.Delete("Sally"))
+                .Do(info => player.Characters.Remove(player.Characters.First(x => x.Name == "Sally")));
 
             _console = Substitute.For<IConsoleWrapper>();
             _newCharacter = Substitute.For<INewCharacterView>();
@@ -88,8 +88,8 @@ namespace dol_con_test.Views
                 Authority = Authority.Tester, 
                 Characters = new List<Character>
                 {
-                    new Character {Name = "Sally", Id = 1}, new Character {Name = "Rick", Id = 2},
-                    new Character {Name = "Joe", Id = 3}
+                    new Character {Name = "Sally"}, new Character {Name = "Rick"},
+                    new Character {Name = "Joe"}
                 }
             };
 
@@ -115,7 +115,7 @@ namespace dol_con_test.Views
 
             _sut.Show();
 
-            _mainView.Received(1).Show(1);
+            _mainView.Received(1).Show(Arg.Is("Sally"));
         }
 
         [Fact]
@@ -149,19 +149,28 @@ namespace dol_con_test.Views
         [Fact]
         public void EnteringTheLetterDShouldShowAskToConfirmThenDeleteThenShow()
         {
-            _console.ReadLine(1).Returns("d 1");
-            _console.ReadLine(2).Returns("y");
+            var player = new Player
+            {
+                Authority = Authority.Player, 
+                Characters = new List<Character>
+                {
+                    new Character {Name = "Sally"}, new Character {Name = "Rick"}
+                }
+            };
+            _console.ReadLine(1).Returns("d 3");
+            _console.ReadLine(2).Returns("y").AndDoes(x => _characterController.GetCharacterData().Returns(player));
+            
 
             _sut.Show();
 
-            _console.Received(1).Write("Are you sure you want delete Sally? (Y)es or (N)o: ");
+            _console.Received(1).Write("Are you sure you want delete Joe? (Y)es or (N)o: ");
             _console.Received(1).ReadLine(2);
 
-            _characterController.Received(1).Delete(1);
+            _characterController.Received(1).Delete("Joe");
 
-            _console.Received(1).WriteLine("1 - Sally");
+            _console.Received(2).WriteLine("1 - Sally");
             _console.Received(2).WriteLine("2 - Rick");
-            _console.Received(2).WriteLine("3 - Joe");
+            _console.Received(1).WriteLine("3 - Joe");
             _console.Received(2).WriteLine("N - Create a new character.");
             _console.Received(2).WriteLine("D # - Delete a character where # is the character ID.");
             _console.Received(2).Write("Enter selection: ");
@@ -175,8 +184,8 @@ namespace dol_con_test.Views
                 Authority = Authority.Admin, 
                 Characters = new List<Character>
                 {
-                    new Character {Name = "Sally", Id = 1}, new Character {Name = "Rick", Id = 2},
-                    new Character {Name = "Joe", Id = 3}
+                    new Character {Name = "Sally"}, new Character {Name = "Rick"},
+                    new Character {Name = "Joe"}
                 }
             };
 
@@ -203,8 +212,8 @@ namespace dol_con_test.Views
                 Authority = Authority.Player, 
                 Characters = new List<Character>
                 {
-                    new Character {Name = "Sally", Id = 1}, new Character {Name = "Rick", Id = 2},
-                    new Character {Name = "Joe", Id = 3}
+                    new Character {Name = "Sally"}, new Character {Name = "Rick"},
+                    new Character {Name = "Joe"}
                 }
             };
 

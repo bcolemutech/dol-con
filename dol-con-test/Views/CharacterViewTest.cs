@@ -142,14 +142,23 @@ namespace dol_con_test.Views
                 new Character {Name = "Sally"}, new Character {Name = "Rick"}
             };
             
-            _console.ReadLine().Returns("d 3");
-            _console.ReadLine().Returns("y").AndDoes(x => _characterController.GetCharacterData().Returns(characters));
-            
+            var step = 0;
+            var responses = new[] {"d 3", "y", "e", "y"};
+            _console.ReadLine().Returns(x =>
+            {
+                var response = responses[step];
+                if (step == 1)
+                {
+                    _characterController.GetCharacterData().Returns(characters);
+                }
+                step++;
+                return response;
+            });
 
             _sut.Show();
 
             _console.Received(1).Write("Are you sure you want delete Joe? (Y)es or (N)o: ");
-            _console.Received(1).ReadLine();
+            _console.Received(4).ReadLine();
 
             _characterController.Received(1).Delete("Joe");
 
@@ -159,30 +168,6 @@ namespace dol_con_test.Views
             _console.Received(2).WriteLine("N - Create a new character.");
             _console.Received(2).WriteLine("D # - Delete a character where # is the character ID.");
             _console.Received(2).Write("Enter selection: ");
-        }
-
-        [Fact]
-        public void GivenUserIsAdminWhenShowThenShowAForAdminOptions()
-        {
-            var characters = new List<Character>
-            {
-                new Character {Name = "Sally"}, new Character {Name = "Rick"},
-                new Character {Name = "Joe"}
-            };
-
-            _characterController.GetCharacterData().Returns(characters);
-            
-            _sut.Show();
-
-            _characterController.Received(1).GetCharacterData();
-
-            _console.Received(1).WriteLine("1 - Sally");
-            _console.Received(1).WriteLine("2 - Rick");
-            _console.Received(1).WriteLine("3 - Joe");
-            _console.Received(1).WriteLine("N - Create a new character.");
-            _console.Received(1).WriteLine("D # - Delete a character where # is the character ID.");
-            _console.Received(1).WriteLine("A - Admin options.");
-            _console.Received(1).Write("Enter selection: ");
         }
     }
 }

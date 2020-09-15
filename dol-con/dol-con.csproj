@@ -23,4 +23,8 @@
       <ProjectReference Include="..\dol-sdk\dol-sdk.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Views\AdminView.cs" />
+    </ItemGroup>
+
 </Project>

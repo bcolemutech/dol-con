@@ -29,7 +29,6 @@ namespace dol_con
                 .AddTransient<ILoginView, LoginView>()
                 .AddTransient<IMainView, MainView>()
                 .AddTransient<IMainController, MainController>()
-                .AddTransient<IAdminView, AdminView>()
                 .AddSingleton<IAdminController, AdminController>()
                 .AddHttpClient()
                 .BuildServiceProvider();

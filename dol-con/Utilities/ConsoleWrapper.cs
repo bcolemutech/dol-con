@@ -7,7 +7,7 @@ namespace dol_con.Utilities
     {
         void WriteLine(string value);
         void Write(string value);
-        string ReadLine(int splitter);
+        string ReadLine();
         void Clear();
     }
 
@@ -24,7 +24,7 @@ namespace dol_con.Utilities
             Console.Write(value);
         }
 
-        public string ReadLine(int splitter)
+        public string ReadLine()
         {
             return Console.ReadLine();
         }

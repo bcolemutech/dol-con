@@ -26,4 +26,8 @@
       <ProjectReference Include="..\dol-con\dol-con.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Views\AdminViewTest.cs" />
+    </ItemGroup>
+
 </Project>

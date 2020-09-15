@@ -3,7 +3,6 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using dol_sdk.Controllers;
-using dol_sdk.Enums;
 using dol_sdk.POCOs;
 using dol_sdk.Services;
 using dol_sdk_test.TestHelpers;
@@ -47,19 +46,15 @@ namespace dol_sdk_test.Controllers
         [Fact]
         public void GetCharacterDataShouldUseTokenToRetrieveListOfCharacters()
         {
-            var expected = new Player
+            var expected = new List<Character>()
             {
-                Authority = Authority.Player,
-                Characters = new List<Character>()
+                new Character
                 {
-                    new Character
-                    {
-                        Name = "Sally"
-                    },
-                    new Character
-                    {
-                        Name = "Bert"
-                    }
+                    Name = "Sally"
+                },
+                new Character
+                {
+                    Name = "Bert"
                 }
             };
 

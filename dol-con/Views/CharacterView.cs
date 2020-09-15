@@ -41,6 +41,7 @@ namespace dol_con.Views
 
             _console.WriteLine("N - Create a new character.");
             _console.WriteLine("D # - Delete a character where # is the character ID.");
+            _console.WriteLine("E - Exit game.");
             _console.Write("Enter selection: ");
             var retry = true;
             var tries = 0;
@@ -56,6 +57,7 @@ namespace dol_con.Views
                 else if (selection.ToUpper() == "N")
                 {
                     _newCharacterView.Show();
+                    Show();
                 }
                 else if (selection.ToUpper().StartsWith('D') &&
                          split.Length == 2 &&
@@ -81,6 +83,7 @@ namespace dol_con.Views
                 }
                 else if (selection.ToUpper().StartsWith('E'))
                 {
+                    _console.Write("Are you sure you want to leave? (Y)es or (N)o: ");
                     var yesNo = _console.ReadLine();
                     if (yesNo.ToUpper().Trim() == "Y")
                     {

@@ -128,6 +128,14 @@ namespace dol_con_test.Views
         public void EnteringTheLetterNShouldShowNewCharacterView()
         {
             _console.ReadLine().Returns("n");
+            var step = 0;
+            var responses = new[] {"n", "e", "y"};
+            _console.ReadLine().Returns(x =>
+            {
+                var response = responses[step];
+                step++;
+                return response;
+            });
 
             _sut.Show();
 

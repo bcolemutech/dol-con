@@ -1,4 +1,7 @@
-﻿namespace dol_con.Views
+﻿using System;
+using System.Threading.Tasks;
+
+namespace dol_con.Views
 {
     public interface IMainView
     {
@@ -9,7 +12,28 @@
     {
         public void Show(string i)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine("");
+            Console.WriteLine("      █████ █                                                █████ ██");                                                    
+            Console.WriteLine("   ██████  █                    █                         ██████  ███                          █");                         
+            Console.WriteLine("  ██   █  █                    ██                        ██   █  █ ██                         ███");                        
+            Console.WriteLine(" █    █  █                     ██                       █    █  █  ██                          █");                         
+            Console.WriteLine("     █  █                    ████████   ████                █  █   █                                              ███");    
+            Console.WriteLine("    ██ ██             ███   ████████   █ ████ █            ██ ██  █       ███       ████     ███    ███  ████     ███");    
+            Console.WriteLine("    ██ ██            █ ███     ██     ██  ████             ██ ██ █       █ ███     █  ███  █  ███    ████ ████ █   ██");    
+            Console.WriteLine("    ██ ██           █   ███    ██    ████                  ██ ███       █   ███   █    ████    ██     ██   ████    ██");    
+            Console.WriteLine("    ██ ██          ██    ███   ██      ███                 ██ ██ ███   ██    ███ ██     ██     ██     ██    ██     ██");    
+            Console.WriteLine("    ██ ██          ████████    ██        ███               ██ ██   ███ ████████  ██     ██     ██     ██    ██     ██");    
+            Console.WriteLine("    █  ██          ███████     ██          ███             █  ██     █████████   ██     ██     ██     ██    ██     ██");    
+            Console.WriteLine("       █           ██          ██     ████  ██                █      ████        ██     ██     ██     ██    ██      █");    
+            Console.WriteLine("   ████           █████    █   ██    █ ████ █             ████     ███ ████    █ ██     ██     ██     ██    ██");           
+            Console.WriteLine("  █  █████████████  ███████     ██      ████             █  ████████    ███████   ████████     ███ █  ███   ███    ██");    
+            Console.WriteLine(" █     █████████     █████                              █     ████       █████      ███ ███     ███    ███   ███   ██");    
+            Console.WriteLine(" █                                                      █                                ███");                             
+            Console.WriteLine("  █                                                      █                         ████   ███");                            
+            Console.WriteLine("   ██                                                     ██                     ███████  ██");                             
+            Console.WriteLine("                                                                                █     ████");
+
+            Task.Delay(new TimeSpan(0, 0, 5));
         }
     }
 }

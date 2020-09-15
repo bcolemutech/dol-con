@@ -21,9 +21,9 @@ namespace dol_con.Views
         public void Show()
         {
             _console.Write("Enter new characters name: ");
-            var name = _console.ReadLine(1);
+            var name = _console.ReadLine();
             _console.Write($"Create new character {name}? (Y)es or (N)o: ");
-            var response = _console.ReadLine(2);
+            var response = _console.ReadLine();
             if (response.ToUpper().Trim() == "Y")
             {
                 _controller.CreateCharacter(name);

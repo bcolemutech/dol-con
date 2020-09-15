@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using dol_sdk.POCOs;
@@ -11,7 +12,7 @@ namespace dol_sdk.Controllers
 {
     public interface ICharacterController
     {
-        Player GetCharacterData();
+        IEnumerable<Character> GetCharacterData();
         User User { get; }
         void Delete(string id);
         void CreateCharacter(string name);
@@ -33,7 +34,7 @@ namespace dol_sdk.Controllers
             _requestUri = configuration["DolApiUri"] + "character";
         }
 
-        public Player GetCharacterData()
+        public IEnumerable<Character> GetCharacterData()
         {
             var request = new HttpRequestMessage(HttpMethod.Get, _requestUri);
 
@@ -47,7 +48,7 @@ namespace dol_sdk.Controllers
 
             var sr = new StreamReader(stream);
             var jsonTextReader = new JsonTextReader(sr);
-            return serializer.Deserialize<Player>(jsonTextReader);
+            return serializer.Deserialize<IEnumerable<Character>>(jsonTextReader);
         }
 
         public User User => _security.Identity.User;

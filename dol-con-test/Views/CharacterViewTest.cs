@@ -4,7 +4,6 @@ using dol_sdk.Controllers;
 using dol_sdk.POCOs;
 using dol_con.Utilities;
 using dol_con.Views;
-using dol_sdk.Enums;
 using Firebase.Auth;
 using NSubstitute;
 using Xunit;
@@ -18,25 +17,18 @@ namespace dol_con_test.Views
         private readonly IConsoleWrapper _console;
         private readonly INewCharacterView _newCharacter;
         private readonly IMainView _mainView;
-        private readonly IAdminView _adminView;
 
         public CharacterViewTest()
         {
-            _adminView = Substitute.For<IAdminView>();
-            
             _characterController = Substitute.For<ICharacterController>();
 
-            var player = new Player
+            var characters = new List<Character>
             {
-                Authority = Authority.Player, 
-                Characters = new List<Character>
-                {
-                    new Character {Name = "Sally"}, new Character {Name = "Rick"},
-                    new Character {Name = "Joe"}
-                }
+                new Character {Name = "Sally"}, new Character {Name = "Rick"},
+                new Character {Name = "Joe"}
             };
 
-            _characterController.GetCharacterData().Returns(player);
+            _characterController.GetCharacterData().Returns(characters);
             var user = new User
             {
                 Email = "bob@test.com"
@@ -45,12 +37,12 @@ namespace dol_con_test.Views
             _characterController.User.Returns(user);
             
             _characterController.When(x => x.Delete("Sally"))
-                .Do(info => player.Characters.Remove(player.Characters.First(x => x.Name == "Sally")));
+                .Do(info => characters.Remove(characters.First(x => x.Name == "Sally")));
 
             _console = Substitute.For<IConsoleWrapper>();
             _newCharacter = Substitute.For<INewCharacterView>();
             _mainView = Substitute.For<IMainView>();
-            _sut = new CharacterView(_console, _characterController, _mainView, _newCharacter, _adminView);
+            _sut = new CharacterView(_console, _characterController, _mainView, _newCharacter);
         }
 
         [Fact]
@@ -83,17 +75,13 @@ namespace dol_con_test.Views
         [Fact]
         public void GivenUserIsTesterWhenShowThenListAvailableCharactersAndOptionToCreate()
         {
-            var player = new Player
+            var characters = new List<Character>
             {
-                Authority = Authority.Tester, 
-                Characters = new List<Character>
-                {
-                    new Character {Name = "Sally"}, new Character {Name = "Rick"},
-                    new Character {Name = "Joe"}
-                }
+                new Character {Name = "Sally"}, new Character {Name = "Rick"},
+                new Character {Name = "Joe"}
             };
 
-            _characterController.GetCharacterData().Returns(player);
+            _characterController.GetCharacterData().Returns(characters);
             
             _sut.Show();
 
@@ -111,7 +99,7 @@ namespace dol_con_test.Views
         [Fact]
         public void EnteringValidCharacterNumberShouldShowMainView()
         {
-            _console.ReadLine(1).Returns("1");
+            _console.ReadLine().Returns("1");
 
             _sut.Show();
 
@@ -121,7 +109,7 @@ namespace dol_con_test.Views
         [Fact]
         public void EnteringAnInvalidCharacterNumberShouldPromptAndAskForNewInput()
         {
-            _console.ReadLine(1).Returns("g");
+            _console.ReadLine().Returns("g");
 
             _sut.Show();
 
@@ -139,7 +127,7 @@ namespace dol_con_test.Views
         [Fact]
         public void EnteringTheLetterNShouldShowNewCharacterView()
         {
-            _console.ReadLine(1).Returns("n");
+            _console.ReadLine().Returns("n");
 
             _sut.Show();
 
@@ -149,22 +137,19 @@ namespace dol_con_test.Views
         [Fact]
         public void EnteringTheLetterDShouldShowAskToConfirmThenDeleteThenShow()
         {
-            var player = new Player
+            var characters = new List<Character>
             {
-                Authority = Authority.Player, 
-                Characters = new List<Character>
-                {
-                    new Character {Name = "Sally"}, new Character {Name = "Rick"}
-                }
+                new Character {Name = "Sally"}, new Character {Name = "Rick"}
             };
-            _console.ReadLine(1).Returns("d 3");
-            _console.ReadLine(2).Returns("y").AndDoes(x => _characterController.GetCharacterData().Returns(player));
+            
+            _console.ReadLine().Returns("d 3");
+            _console.ReadLine().Returns("y").AndDoes(x => _characterController.GetCharacterData().Returns(characters));
             
 
             _sut.Show();
 
             _console.Received(1).Write("Are you sure you want delete Joe? (Y)es or (N)o: ");
-            _console.Received(1).ReadLine(2);
+            _console.Received(1).ReadLine();
 
             _characterController.Received(1).Delete("Joe");
 
@@ -179,17 +164,13 @@ namespace dol_con_test.Views
         [Fact]
         public void GivenUserIsAdminWhenShowThenShowAForAdminOptions()
         {
-            var player = new Player
+            var characters = new List<Character>
             {
-                Authority = Authority.Admin, 
-                Characters = new List<Character>
-                {
-                    new Character {Name = "Sally"}, new Character {Name = "Rick"},
-                    new Character {Name = "Joe"}
-                }
+                new Character {Name = "Sally"}, new Character {Name = "Rick"},
+                new Character {Name = "Joe"}
             };
 
-            _characterController.GetCharacterData().Returns(player);
+            _characterController.GetCharacterData().Returns(characters);
             
             _sut.Show();
 
@@ -202,28 +183,6 @@ namespace dol_con_test.Views
             _console.Received(1).WriteLine("D # - Delete a character where # is the character ID.");
             _console.Received(1).WriteLine("A - Admin options.");
             _console.Received(1).Write("Enter selection: ");
-        }
-
-        [Fact]
-        public void GivenUserIsAdminWhenSelectingAThenShowAdminView()
-        {
-            var player = new Player
-            {
-                Authority = Authority.Player, 
-                Characters = new List<Character>
-                {
-                    new Character {Name = "Sally"}, new Character {Name = "Rick"},
-                    new Character {Name = "Joe"}
-                }
-            };
-
-            _characterController.GetCharacterData().Returns(player);
-
-            _console.ReadLine(1).Returns("a");
-            
-            _sut.Show();
-
-            _adminView.Received(1).Show();
         }
     }
 }

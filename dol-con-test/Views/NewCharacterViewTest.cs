@@ -1,4 +1,4 @@
-﻿using dol_con.Utilities;
+﻿﻿using dol_con.Utilities;
 using dol_con.Views;
 using dol_sdk.Controllers;
 using NSubstitute;
@@ -22,30 +22,30 @@ namespace dol_con_test.Views
         [Fact]
         public void ShowShouldAskForCharactersNameAndVerifyChoiceWhenYesThenCreateCharacterThenReturnToCharacterScreen()
         {
-            _console.ReadLine(1).Returns("Jake");
-            _console.ReadLine(2).Returns("y");
+            _console.ReadLine().Returns("Jake");
+            _console.ReadLine().Returns("y");
             
             _sut.Show();
             
             _console.Received(1).Write("Enter new characters name: ");
-            _console.Received(1).ReadLine(1);
+            _console.Received(1).ReadLine();
             _console.Received(1).Write("Create new character Jake? (Y)es or (N)o: ");
-            _console.Received(1).ReadLine(2);
+            _console.Received(1).ReadLine();
             _characterController.Received(1).CreateCharacter("Jake");
         }
         
         [Fact]
         public void ShowShouldAskForCharactersNameAndVerifyChoiceWhenNoThenReturnToCharacterScreen()
         {
-            _console.ReadLine(1).Returns("Jake");
-            _console.ReadLine(2).Returns("n");
+            _console.ReadLine().Returns("Jake");
+            _console.ReadLine().Returns("n");
             
             _sut.Show();
             
             _console.Received(1).Write("Enter new characters name: ");
-            _console.Received(1).ReadLine(1);
+            _console.Received(1).ReadLine();
             _console.Received(1).Write("Create new character Jake? (Y)es or (N)o: ");
-            _console.Received(1).ReadLine(2);
+            _console.Received(1).ReadLine();
             _characterController.Received(0).CreateCharacter("Jake");
         }
     }

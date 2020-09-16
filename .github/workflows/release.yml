@@ -20,10 +20,15 @@ jobs:
       env: 
         RELEASE_KEY: ${{ secrets.RELEASE_KEY }}
       run: dotnet nuget add source https://nuget.pkg.github.com/bcolemutech/index.json -n github -u bcolemutech -p "$env:RELEASE_KEY"
+    - name: SetTag
+      shell: pwsh
+      env:
+        RELEASE_TAG: ${{github.ref}}
+      run: $env:RELEASE_TAG = $env:RELEASE_TAG -replace "/refs/tags/", ""
     - name: Pack
       shell: pwsh
-      run: dotnet pack dol-sdk/dol-sdk.csproj -p:PackageVersion=${GITHUB_REF#refs/*/} --configuration Release
+      run: dotnet pack dol-sdk/dol-sdk.csproj -p:PackageVersion=$env:RELEASE_TAG --configuration Release
     - name: Publish
       shell: pwsh
-      run: dotnet nuget push "bin/Release/dol-sdk.${GITHUB_REF#refs/*/}.nupkg" --source "github"
+      run: dotnet nuget push "bin/Release/dol-sdk.$env:RELEASE_TAG.nupkg" --source "github"
       

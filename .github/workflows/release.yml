@@ -15,10 +15,6 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.301
-    - name: Install dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
     - name: Authenticate
       shell: pwsh
       env: 
@@ -26,8 +22,8 @@ jobs:
       run: dotnet nuget add source https://nuget.pkg.github.com/bcolemutech/index.json -n github -u bcolemutech -p "$env:RELEASE_KEY"
     - name: Pack
       shell: pwsh
-      run: dotnet pack dol-sdk/dol-sdk.csproj -p:PackageVersion=${{github.ref#refs/*/}} --configuration Release
+      run: dotnet pack dol-sdk/dol-sdk.csproj -p:PackageVersion=${GITHUB_REF#refs/*/} --configuration Release
     - name: Publish
       shell: pwsh
-      run: dotnet nuget push "bin/Release/dol-sdk.${{github.ref#refs/*/}}.nupkg" --source "github"
+      run: dotnet nuget push "bin/Release/dol-sdk.${GITHUB_REF#refs/*/}.nupkg" --source "github"
       

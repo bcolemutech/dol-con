@@ -1,0 +1,27 @@
+﻿name: Release
+
+on:
+  release:
+    types: [published]
+    
+jobs:
+  Package:
+    
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.301
+    - name: Install dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+    - name: Authenticate
+      run: dotnet nuget add source https://nuget.pkg.github.com/bcolemutech/index.json -n github -u bcolemutech -p GH_TOKEN ${{ secrets.GITHUB_TOKEN }}
+    - name: Pack
+      run: dotnet pack --configuration Release
+    - name: Publish
+      run: dotnet nuget push "bin/Release/dol-con.${{github.ref}}.nupkg" --source "github"

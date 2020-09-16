@@ -21,14 +21,13 @@ jobs:
         RELEASE_KEY: ${{ secrets.RELEASE_KEY }}
       run: dotnet nuget add source https://nuget.pkg.github.com/bcolemutech/index.json -n github -u bcolemutech -p "$env:RELEASE_KEY"
     - name: SetTag
-      shell: pwsh
-      env:
-        RELEASE_TAG: ${{ github.ref }}
-      run: $env:RELEASE_TAG = "${{ github.ref }}" -replace "/refs/tags/", ""
+      shell: bash
+      id: get_version
+      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
     - name: Pack
       shell: pwsh
-      run: dotnet pack dol-sdk/dol-sdk.csproj -p:PackageVersion="${{ github.ref }}".substring(10) --configuration Release
+      run: dotnet pack dol-sdk/dol-sdk.csproj -p:PackageVersion=${{ steps.get_version.outputs.VERSION }} --configuration Release
     - name: Publish
       shell: pwsh
-      run: dotnet nuget push "bin/Release/dol-sdk." + "${{ github.ref }}".substring(10) + ".nupkg" --source "github"
+      run: dotnet nuget push "bin/Release/dol-sdk.${{ steps.get_version.outputs.VERSION }}.nupkg" --source "github"
       

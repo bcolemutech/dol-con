@@ -24,7 +24,7 @@ jobs:
       shell: pwsh
       env:
         RELEASE_TAG: ${{ github.ref }}
-      run: $env:RELEASE_TAG = ${{ github.ref }} -replace "/refs/tags/", ""
+      run: $env:RELEASE_TAG = "${{ github.ref }}" -replace "/refs/tags/", ""
     - name: Pack
       shell: pwsh
       run: dotnet pack dol-sdk/dol-sdk.csproj -p:PackageVersion="$env:RELEASE_TAG" --configuration Release

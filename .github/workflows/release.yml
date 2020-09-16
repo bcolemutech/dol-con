@@ -29,5 +29,5 @@ jobs:
       run: dotnet pack dol-sdk/dol-sdk.csproj -p:PackageVersion=${{ steps.get_version.outputs.VERSION }} --configuration Release
     - name: Publish
       shell: pwsh
-      run: dotnet nuget push "bin/Release/dol-sdk.${{ steps.get_version.outputs.VERSION }}.nupkg" --source "github"
+      run: dotnet nuget push "dol-sdk/bin/Release/dol-sdk.${{ steps.get_version.outputs.VERSION }}.nupkg" --source "github"
       

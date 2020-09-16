@@ -24,13 +24,10 @@ jobs:
       shell: pwsh
       env:
         RELEASE_TAG: ${{ github.ref }}
-      run: $env:RELEASE_TAG = $env:RELEASE_TAG -replace "/refs/tags/", ""
-    - name: Display tag
-      shell: pwsh
-      run: $env:RELEASE_TAG
+      run: $env:RELEASE_TAG = ${{ github.ref }} -replace "/refs/tags/", ""
     - name: Pack
       shell: pwsh
-      run: dotnet pack dol-sdk/dol-sdk.csproj -p:PackageVersion=$env:RELEASE_TAG --configuration Release
+      run: dotnet pack dol-sdk/dol-sdk.csproj -p:PackageVersion="$env:RELEASE_TAG" --configuration Release
     - name: Publish
       shell: pwsh
       run: dotnet nuget push "bin/Release/dol-sdk.$env:RELEASE_TAG.nupkg" --source "github"

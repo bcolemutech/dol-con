@@ -1,4 +1,4 @@
-﻿name: Release
+name: Release
 
 on:
   release:
@@ -6,7 +6,7 @@ on:
     
 jobs:
   Package:
-    
+
     runs-on: windows-latest
     
     steps:
@@ -30,3 +30,4 @@ jobs:
     - name: Publish
       shell: pwsh
       run: dotnet nuget push "bin/Release/dol-sdk.${{github.ref}}.nupkg" --source "github"
+      

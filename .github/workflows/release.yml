@@ -1,4 +1,4 @@
-﻿name: Release
+name: Release
 
 on:
   release:
@@ -20,7 +20,9 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: Authenticate
-      run: dotnet nuget add source https://nuget.pkg.github.com/bcolemutech/index.json -n github -u bcolemutech -p GH_TOKEN ${{ secrets.GITHUB_TOKEN }}
+      env: 
+        RELEASE_KEY: ${{ secrets.RELEASE_KEY }}
+      run: dotnet nuget add source https://nuget.pkg.github.com/bcolemutech/index.json -n github -u bcolemutech -p "$RELEASE_KEY"
     - name: Pack
       run: dotnet pack --configuration Release
     - name: Publish

@@ -26,6 +26,7 @@ jobs:
         RELEASE_TAG: ${{ github.ref }}
       run: $env:RELEASE_TAG = $env:RELEASE_TAG -replace "/refs/tags/", ""
     - name: Display tag
+      shell: pwsh
       run: $env:RELEASE_TAG
     - name: Pack
       shell: pwsh

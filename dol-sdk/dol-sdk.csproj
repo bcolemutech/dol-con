@@ -3,6 +3,9 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <RootNamespace>dol_sdk</RootNamespace>
+        <Authors>bcolemutech</Authors>
+        <RepositoryUrl>https://github.com/bcolemutech/dol-con</RepositoryUrl>
+        <Copyright>September 2020</Copyright>
     </PropertyGroup>
 
     <ItemGroup>

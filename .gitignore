@@ -352,3 +352,4 @@ MigrationBackup/
 # Other
 .idea/
 .DS_Store
+.vscode/

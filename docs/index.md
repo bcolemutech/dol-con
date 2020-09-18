@@ -46,9 +46,9 @@ The NET Core 3.1 app can be pulled from the public repo [dol-col](https://github
 
 #### Download the standalone version
 
-[**OSX**](https://github.com/bcolemutech/dol-con/releases/download/0.0.13/dol-con.tar) - macOS 10.15 Catalina
+[**OSX**](https://github.com/bcolemutech/dol-con/releases/latest/download/dol-con.tar) - macOS 10.15 Catalina
 
-[**PC**](https://github.com/bcolemutech/dol-con/releases/download/0.0.13/dol-pc.zip) - Windows 10 x64
+[**PC**](https://github.com/bcolemutech/dol-con/releases/latest/download/dol-pc.zip) - Windows 10 x64
 
 ### Get access
 

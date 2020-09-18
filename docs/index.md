@@ -40,15 +40,17 @@ with this project.
 
 ### Get the app (text adventure)
 
+#### Download the app from the site
+
+Use the link at the top of the screen to download for PC or OSX
+
+**OSX** - Tested on macOS 10.15 Catalina
+
+**PC** - Tested on Windows 10 x64
+
 #### Clone and build it yourself
 
 The NET Core 3.1 app can be pulled from the public repo [dol-col](https://github.com/bcolemutech/dol-con).
-
-#### Download the standalone version
-
-[**OSX**](https://github.com/bcolemutech/dol-con/releases/latest/download/dol-con.tar) - macOS 10.15 Catalina
-
-[**PC**](https://github.com/bcolemutech/dol-con/releases/latest/download/dol-pc.zip) - Windows 10 x64
 
 ### Get access
 

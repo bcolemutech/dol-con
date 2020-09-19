@@ -9,7 +9,7 @@ assignees: bcolemutech
 
 ## Description
 
-*Description here*
+<!-- Description here -->
 
 ## Checklist
 

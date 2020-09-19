@@ -1,9 +1,5 @@
 # Dominion of Light
 
-![PR Verify](https://github.com/bcolemutech/dol-con/workflows/PR%20Verify/badge.svg)
-
-![Release](https://github.com/bcolemutech/dol-con/workflows/Release/badge.svg)
-
 This is the start of a great journey. The creation of Dominion of Light the game.
 This game is a Google Cloud hosted world. The first phase of the game is a text adventure.
 As the game world evolves new features will be released to the app.

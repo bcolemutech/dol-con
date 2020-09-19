@@ -2,7 +2,7 @@
 name: New feature
 about: This template is for new features, enhancements, or changes.
 title: ''
-labels: feature
+labels: enhancment
 assignees: bcolemutech
 
 ---

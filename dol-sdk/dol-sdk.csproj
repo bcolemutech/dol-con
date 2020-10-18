@@ -6,11 +6,12 @@
         <Authors>bcolemutech</Authors>
         <RepositoryUrl>https://github.com/bcolemutech/dol-con</RepositoryUrl>
         <Copyright>September 2020</Copyright>
+        <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="FirebaseAuthentication.net" Version="3.4.0" />
-      <PackageReference Include="Microsoft.Extensions.Http" Version="3.1.7" />
+      <PackageReference Include="Microsoft.Extensions.Http" Version="3.1.9" />
     </ItemGroup>
 
 </Project>

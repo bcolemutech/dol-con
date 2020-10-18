@@ -1,6 +1,11 @@
 ﻿namespace dol_sdk.POCOs
 {
-    public class Character
+    public interface ICharacter
+    {
+        string Name { get; set; }
+    }
+
+    public class Character : ICharacter
     {
         public string Name { get; set; }
     }

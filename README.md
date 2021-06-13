@@ -1,7 +1,7 @@
-# dol-con
+# ~~dol-con~~
 
-![PR Verify](https://github.com/bcolemutech/dol-con/workflows/PR%20Verify/badge.svg)
+~~Text adventure implementing the DOL API hosted in Google Cloud.~~
 
-![Release](https://github.com/bcolemutech/dol-con/workflows/Release/badge.svg)
+### This project has been terminated
 
-Text adventure implementing the DOL API hosted in Google Cloud.
+All UI and SDK work is now being done in the web app [dol-blazor](https://github.com/bcolemutech/dol-blazor)
